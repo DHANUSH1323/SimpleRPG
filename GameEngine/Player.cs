@@ -1,4 +1,5 @@
 using System.Runtime;
+using System.Text.Json.Serialization;
 
 namespace SimpleRPG.GameEngine
 {
@@ -8,7 +9,16 @@ namespace SimpleRPG.GameEngine
         public int Health { get; set; } = 100;
         public int Experience { get; set; } = 0;
         public int Level { get; set; } = 1;
+
+        [JsonInclude]
+        public List<Quest> ActiveQuests { get; set; } = new List<Quest>();
+
+        [JsonInclude]
+        public List<Quest> CompletedQuests { get; set; } = new List<Quest>();
+
+        [JsonInclude]
         public Inventory Inventory { get; set; } = new Inventory();
+        public Player() { }
         public Player(string name)
         {
             Name = name;
@@ -35,5 +45,10 @@ namespace SimpleRPG.GameEngine
             Console.WriteLine($"❤️ Health increased to {Health}.\n");
         }
 
+        public void AcceptQuest(Quest quest)
+        {
+            ActiveQuests.Add(quest);
+            Console.WriteLine($"\n📝 New Quest: {quest.Name} - {quest.Description}");
+        }
     }
 }

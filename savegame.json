@@ -1,0 +1,24 @@
+{
+  "Name": "dhanush",
+  "Health": 30,
+  "Experience": 70,
+  "Level": 1,
+  "ActiveQuests": [
+    {
+      "Name": "First Blood",
+      "Description": "Win your first battle",
+      "IsCompleted": false,
+      "RewardXP": 30
+    },
+    {
+      "Name": "Monster Hunter",
+      "Description": "Defeat 3 monsters",
+      "IsCompleted": false,
+      "RewardXP": 60
+    }
+  ],
+  "CompletedQuests": [],
+  "Inventory": {
+    "Items": []
+  }
+}
