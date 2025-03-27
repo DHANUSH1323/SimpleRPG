@@ -9,6 +9,7 @@ namespace SimpleRPG
         static void Main()
         {
             Player? player = null;
+            NPC? shopkeeper = null;
 
             // 🧙 Start Menu
             while (player == null)
@@ -25,6 +26,10 @@ namespace SimpleRPG
                     Console.Write("What is your name, brave adventurer? ");
                     string playerName = Console.ReadLine();
                     player = new Player(playerName);
+
+                    shopkeeper = new NPC("Alaric", "Greetings, traveler. Care to browse my wares?");
+                    shopkeeper.ShopInventory.Add(new Item("Minor Healing Potion", ItemType.Healing, 20));
+                    shopkeeper.ShopInventory.Add(new Item("Lesser Healing Potion", ItemType.Healing, 30));
 
                     // Assign starter quests
                     foreach (var quest in QuestManager.GetAvailableQuests())
@@ -58,8 +63,10 @@ namespace SimpleRPG
                 Console.WriteLine("\n🧭 What would you like to do?");
                 Console.WriteLine("1. Fight a monster");
                 Console.WriteLine("2. View quests");
-                Console.WriteLine("3. Save game");
-                Console.WriteLine("4. Exit");
+                Console.WriteLine("3. View/use inventory");
+                Console.WriteLine("4. Talk to shopkeeper");
+                Console.WriteLine("5. Save game");
+                Console.WriteLine("6. Exit");
                 Console.Write("Choose an option: ");
 
                 string input = Console.ReadLine();
@@ -91,9 +98,34 @@ namespace SimpleRPG
                 }
                 else if (input == "3")
                 {
-                    SaveLoad.SaveGame(player);
+                    player.Inventory.ShowInventory();
+
+                    Console.Write("Enter item number to use or press Enter to cancel: ");
+                    string itemInput = Console.ReadLine();
+
+                    if (int.TryParse(itemInput, out int itemNumber))
+                    {
+                        player.Inventory.UseItem(itemNumber - 1, player);
+                    }
                 }
                 else if (input == "4")
+                {
+                    if (shopkeeper != null)
+                    {
+                        shopkeeper.Talk();
+                        shopkeeper.OpenShop(player);
+                    }
+                    else
+                    {
+                        Console.WriteLine("⚠️ No shopkeeper available.");
+                    }
+                }
+                else if (input == "5")
+                {
+                    SaveLoad.SaveGame(player);
+                    Console.WriteLine("💾 Game saved successfully!");
+                }
+                else if (input == "6")
                 {
                     Console.WriteLine("👋 Exiting game...");
                     break;

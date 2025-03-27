@@ -1,8 +1,9 @@
 {
   "Name": "dhanush",
-  "Health": 30,
-  "Experience": 70,
+  "Health": 85,
+  "Experience": 45,
   "Level": 1,
+  "Gold": 95,
   "ActiveQuests": [
     {
       "Name": "First Blood",

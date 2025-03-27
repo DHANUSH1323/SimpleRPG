@@ -9,6 +9,7 @@ namespace SimpleRPG.GameEngine
         public int Health { get; set; } = 100;
         public int Experience { get; set; } = 0;
         public int Level { get; set; } = 1;
+        public int Gold { get; set; } = 100; // Start with some gold
 
         [JsonInclude]
         public List<Quest> ActiveQuests { get; set; } = new List<Quest>();
@@ -33,6 +34,17 @@ namespace SimpleRPG.GameEngine
             {
                 LevelUp();
             }
+        }
+
+        public void Heal(int amount)
+        {
+            Health += amount;
+            if (Health > 100)
+            {
+                Health = 100;
+            }
+
+            Console.WriteLine($"❤️ {Name} healed for {amount} HP. Current Health: {Health}");
         }
 
         private void LevelUp()
