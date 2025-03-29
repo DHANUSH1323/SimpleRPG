@@ -8,8 +8,23 @@ namespace SimpleRPG.GameEngine
         {
             return new List<Quest>
             {
-                new Quest("First Blood", "Win your first battle", 30),
-                new Quest("Monster Hunter", "Defeat 3 monsters", 60)
+                new Quest
+                {
+                    Name = "Goblin Slayer",
+                    Description = "Defeat 3 Goblins in the Forest.",
+                    TargetMonster = "Goblin",
+                    KillGoal = 3,
+                    GoldReward = 50,
+                    ItemReward = new Item("Greater Healing Potion", ItemType.Healing, 50)
+                },
+                new Quest
+                {
+                    Name = "Orc Basher",
+                    Description = "Defeat 2 Orcs in the Cave.",
+                    TargetMonster = "Orc",
+                    KillGoal = 2,
+                    GoldReward = 75
+                }
             };
         }
     }

@@ -7,6 +7,7 @@ namespace SimpleRPG.GameEngine
         public static void StartBattle(Player player, Monster monster)
         {
             Console.WriteLine($"\n⚔️  {player.Name} vs {monster.Name} begins!");
+            Console.WriteLine($"🌍 The {monster.Name} appears from the {player.CurrentLocation}!");
 
             Random rng = new Random();
 
@@ -50,6 +51,31 @@ namespace SimpleRPG.GameEngine
                 int goldReward = rng.Next(10, 21);
                 player.Gold += goldReward;
                 Console.WriteLine($"💰 You looted {goldReward} gold! Total Gold: {player.Gold}");
+
+                // ✅ Quest progression check
+                foreach (var quest in player.ActiveQuests)
+                {
+                    if (!player.CompletedQuests.Contains(quest) && quest.TargetMonster == monster.Name)
+                    {
+                        quest.KillCount++;
+                        Console.WriteLine($"📜 Quest progress: {quest.Name} ({quest.KillCount}/{quest.KillGoal})");
+
+                        if (quest.KillCount >= quest.KillGoal)
+                        {
+                            player.CompletedQuests.Add(quest);
+                            Console.WriteLine($"✅ Quest complete: {quest.Name}!");
+
+                            player.Gold += quest.GoldReward;
+                            Console.WriteLine($"💰 You received {quest.GoldReward} gold!");
+
+                            if (quest.ItemReward != null)
+                            {
+                                player.Inventory.AddItem(quest.ItemReward);
+                                Console.WriteLine($"🎁 You received item: {quest.ItemReward.Name}");
+                            }
+                        }
+                    }
+                }
             }
             else
             {

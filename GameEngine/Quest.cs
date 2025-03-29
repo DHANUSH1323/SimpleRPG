@@ -8,7 +8,11 @@ namespace SimpleRPG.GameEngine
         public string Description { get; set; }
         public bool IsCompleted { get; set; } = false;
         public int RewardXP { get; set; }
-
+        public string TargetMonster { get; set; }
+        public int KillGoal { get; set; }
+        public int KillCount { get; set; } = 0;
+        public int GoldReward { get; set; } = 0;
+        public Item? ItemReward { get; set; }
         public Quest() { }  // Required for deserialization
 
         public Quest(string name, string description, int rewardXP)
