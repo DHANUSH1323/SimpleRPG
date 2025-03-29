@@ -24,7 +24,7 @@ namespace SimpleRPG.GameEngine
         {
             Name = name;
         }
-
+        public string CurrentLocation { get; set; } = "Village";
         public void GainExperience(int amount)
         {
             Experience += amount;

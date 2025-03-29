@@ -11,10 +11,10 @@ namespace SimpleRPG
             Player? player = null;
             NPC? shopkeeper = null;
 
-            // 🧙 Start Menu
+            // 🤙 Start Menu
             while (player == null)
             {
-                Console.WriteLine("🧙 Welcome to the Realm of Consolevania!");
+                Console.WriteLine("🤙 Welcome to the Realm of Consolevania!");
                 Console.WriteLine("1. New Game");
                 Console.WriteLine("2. Load Game");
                 Console.WriteLine("3. Exit");
@@ -26,7 +26,7 @@ namespace SimpleRPG
                     Console.Write("What is your name, brave adventurer? ");
                     string playerName = Console.ReadLine();
                     player = new Player(playerName);
-
+                    Console.WriteLine($"📍 You are currently in: {player.CurrentLocation}");
                     shopkeeper = new NPC("Alaric", "Greetings, traveler. Care to browse my wares?");
                     shopkeeper.ShopInventory.Add(new Item("Minor Healing Potion", ItemType.Healing, 20));
                     shopkeeper.ShopInventory.Add(new Item("Lesser Healing Potion", ItemType.Healing, 30));
@@ -45,6 +45,11 @@ namespace SimpleRPG
                     {
                         Console.WriteLine("⚠️ No saved game found.");
                     }
+                    else
+                    {
+                        Console.WriteLine($"📍 Welcome back, {player.Name}.");
+                        Console.WriteLine($"📍 You are currently in: {player.CurrentLocation}");
+                    }
                 }
                 else if (choice == "3")
                 {
@@ -60,13 +65,14 @@ namespace SimpleRPG
             // 🎮 Main Game Loop
             while (player.Health > 0)
             {
-                Console.WriteLine("\n🧭 What would you like to do?");
+                Console.WriteLine("\n🛍️ What would you like to do?");
                 Console.WriteLine("1. Fight a monster");
                 Console.WriteLine("2. View quests");
                 Console.WriteLine("3. View/use inventory");
                 Console.WriteLine("4. Talk to shopkeeper");
-                Console.WriteLine("5. Save game");
-                Console.WriteLine("6. Exit");
+                Console.WriteLine("5. Travel to new location");
+                Console.WriteLine("6. Save game");
+                Console.WriteLine("7. Exit");
                 Console.Write("Choose an option: ");
 
                 string input = Console.ReadLine();
@@ -122,10 +128,14 @@ namespace SimpleRPG
                 }
                 else if (input == "5")
                 {
-                    SaveLoad.SaveGame(player);
-                    Console.WriteLine("💾 Game saved successfully!");
+                    player.CurrentLocation = WorldMap.Travel(player.CurrentLocation);
                 }
                 else if (input == "6")
+                {
+                    SaveLoad.SaveGame(player);
+                    Console.WriteLine("📀 Game saved successfully!");
+                }
+                else if (input == "7")
                 {
                     Console.WriteLine("👋 Exiting game...");
                     break;
@@ -136,7 +146,7 @@ namespace SimpleRPG
                 }
             }
 
-            Console.WriteLine("\n🛑 Game Over. Thanks for playing!");
+            Console.WriteLine("\n😕 Game Over. Thanks for playing!");
         }
     }
 }
