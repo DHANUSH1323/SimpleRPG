@@ -10,6 +10,7 @@ namespace SimpleRPG.GameEngine
         public int Experience { get; set; } = 0;
         public int Level { get; set; } = 1;
         public int Gold { get; set; } = 100; // Start with some gold
+        public bool SkipNextTurn { get; set; } = false;
 
         [JsonInclude]
         public List<Quest> ActiveQuests { get; set; } = new List<Quest>();

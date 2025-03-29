@@ -6,39 +6,68 @@ namespace SimpleRPG.GameEngine
     {
         public static void StartBattle(Player player, Monster monster)
         {
-            Console.WriteLine($"\n⚔️  {player.Name} vs {monster.Name} begins!");
+            Console.WriteLine($"\n⚔️  {player.Name} (Lvl {player.Level}) vs {monster.Name} begins!");
             Console.WriteLine($"🌍 The {monster.Name} appears from the {player.CurrentLocation}!");
 
             Random rng = new Random();
 
             while (player.Health > 0 && monster.Health > 0)
             {
-                Console.WriteLine("\n🔁 Press Enter to attack...");
-                Console.ReadLine();
+                if (player.SkipNextTurn)
+                {
+                    Console.WriteLine("⏭️ You are recovering from your last strong attack and skip this turn.");
+                    player.SkipNextTurn = false;
+                }
+                else
+                {
+                    Console.WriteLine("\n🔁 Choose your action:");
+                    Console.WriteLine("1. Normal Attack");
+                    Console.WriteLine("2. Strong Attack (Higher crit, skips next turn)");
+                    Console.Write("Action: ");
+                    string action = Console.ReadLine();
 
-                // ✅ Player Attack
-                int baseDamage = 10 + (player.Level - 1) * 2;
-                bool isCrit = rng.Next(100) < 25; // 25% crit chance
-                int damageDealt = isCrit ? baseDamage * 2 : baseDamage;
+                    int baseDamage = 10 + (player.Level - 1) * 2;
+                    bool isCrit = false;
 
-                monster.Health -= damageDealt;
-                if (monster.Health < 0) monster.Health = 0;
+                    if (action == "2")
+                    {
+                        baseDamage += 5;
+                        isCrit = rng.Next(100) < 50; // 50% crit chance
+                        player.SkipNextTurn = true;
+                    }
+                    else
+                    {
+                        isCrit = rng.Next(100) < 25;
+                    }
 
-                Console.WriteLine(isCrit
-                    ? $"💥 CRITICAL HIT! {player.Name} dealt {damageDealt} damage!"
-                    : $"⚔️ {player.Name} hits {monster.Name} for {damageDealt} damage.");
+                    int damageDealt = isCrit ? baseDamage * 2 : baseDamage;
 
-                Console.WriteLine($"👹 {monster.Name} HP: {monster.Health}");
+                    monster.Health -= damageDealt;
+                    if (monster.Health < 0) monster.Health = 0;
+
+                    Console.WriteLine(isCrit
+                        ? $"💥 CRITICAL HIT! {player.Name} dealt {damageDealt} damage!"
+                        : $"⚔️ {player.Name} hits {monster.Name} for {damageDealt} damage.");
+
+                    Console.WriteLine($"👹 {monster.Name} HP: {monster.Health}");
+                }
 
                 // ✅ Monster counterattack
                 if (monster.Health > 0)
                 {
-                    int monsterDamage = 5;
-                    player.Health -= monsterDamage;
-                    if (player.Health < 0) player.Health = 0;
+                    if (rng.Next(100) < 10)
+                    {
+                        Console.WriteLine("🌀 You dodged the monster's attack!");
+                    }
+                    else
+                    {
+                        int monsterDamage = 5;
+                        player.Health -= monsterDamage;
+                        if (player.Health < 0) player.Health = 0;
 
-                    Console.WriteLine($"😈 {monster.Name} strikes back for {monsterDamage} damage!");
-                    Console.WriteLine($"🧍 {player.Name} HP: {player.Health}");
+                        Console.WriteLine($"😈 {monster.Name} strikes back for {monsterDamage} damage!");
+                        Console.WriteLine($"🧍 {player.Name} HP: {player.Health}");
+                    }
                 }
             }
 
