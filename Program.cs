@@ -79,7 +79,7 @@ namespace SimpleRPG
 
                 if (input == "1")
                 {
-                    Monster monster = MonsterFactory.GenerateMonster();
+                    Monster monster = MonsterFactory.GenerateMonster(player.CurrentLocation);
                     BattleSystem.StartBattle(player, monster);
                 }
                 else if (input == "2")

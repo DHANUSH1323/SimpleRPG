@@ -7,23 +7,23 @@ namespace SimpleRPG.GameEngine
     {
         private static readonly List<Monster> monsters = new()
         {
-            new Monster("Goblin") { Health = 30, ExperienceReward = 10},
-            new Monster("Orc") {Health = 50, ExperienceReward = 20},
-            new Monster("Troll") {Health = 70, ExperienceReward = 30},
-            new Monster("Dark Elf") {Health = 60, ExperienceReward = 25},
+            new Monster("Goblin") { Health = 30, ExperienceReward = 10 },
+            new Monster("Orc") { Health = 50, ExperienceReward = 20 },
+            new Monster("Troll") { Health = 70, ExperienceReward = 30 },
+            new Monster("Dark Elf") { Health = 60, ExperienceReward = 25 },
         };
 
         private static readonly Random rng = new();
 
-        public static Monster GenerateMonster()
+        public static Monster GenerateMonster(string location)
         {
-            int index = rng.Next(monsters.Count);
-            Monster baseMonster = monsters[index];
-
-            return new Monster(baseMonster.Name)
+            return location switch
             {
-                Health = baseMonster.Health,
-                ExperienceReward = baseMonster.ExperienceReward
+                "Forest" => new Monster("Goblin", 50, 15),
+                "Cave" => new Monster("Orc", 70, 25),
+                "Mountain" => new Monster("Troll", 90, 35),
+                "Village" => new Monster("Drunk Villager", 30, 5),
+                _ => new Monster("Slime", 40, 10),
             };
         }
     }
